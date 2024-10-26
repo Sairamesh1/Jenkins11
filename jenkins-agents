@@ -2,11 +2,29 @@ pipeline {
     agent any
 
     stages {
+        stage('Checkout') {
+            steps {
+                echo 'Checking out the repository...'
+                checkout scm
+            }
+        }
+        stage('Install Node.js') {
+            steps {
+                echo 'Checking for Node.js and npm installation...'
+                script {
+                    def nodeInstalled = sh(script: 'node -v', returnStatus: true) == 0
+                    def npmInstalled = sh(script: 'npm -v', returnStatus: true) == 0
+
+                    if (!nodeInstalled || !npmInstalled) {
+                        error('Node.js and npm are not installed. Please install them on the Jenkins agent.')
+                    }
+                }
+            }
+        }
         stage('Build') {
             steps {
                 echo 'Building the application...'
                 script {
-                    // Install dependencies
                     sh 'npm install'
                 }
             }
@@ -15,7 +33,6 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 script {
-                    // Run tests
                     sh 'npm test'
                 }
             }
@@ -24,7 +41,7 @@ pipeline {
             steps {
                 echo 'Deploying the application...'
                 script {
-                    // Deploy steps, for example, using Heroku CLI
+                    // Replace the following lines with your deployment commands
                     sh 'heroku git:remote -a your-app-name'
                     sh 'git push heroku main'
                 }
