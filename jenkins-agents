@@ -8,56 +8,29 @@ pipeline {
                 checkout scm
             }
         }
-        stage('Install Node.js') {
+        stage('Install Dependencies') {
             steps {
-                echo 'Checking for Node.js and npm installation...'
-                script {
-                    def nodeInstalled = sh(script: 'node -v', returnStatus: true) == 0
-                    def npmInstalled = sh(script: 'npm -v', returnStatus: true) == 0
-
-                    if (!nodeInstalled || !npmInstalled) {
-                        error('Node.js and npm are not installed. Please install them on the Jenkins agent.')
-                    }
-                }
+                echo 'Installing dependencies...'
+                sh 'npm install'
+            }
+        }
+        stage('Run Tests') {
+            steps {
+                echo 'Running tests...'
+                sh 'npm test'
             }
         }
         stage('Build') {
             steps {
                 echo 'Building the application...'
-                script {
-                    dir('myapp') { // Change 'myapp' to your actual directory if needed
-                        sh 'npm install'
-                    }
-                }
-            }
-        }
-        stage('Test') {
-            steps {
-                echo 'Running tests...'
-                script {
-                    dir('myapp') { // Adjust accordingly
-                        sh 'npm test'
-                    }
-                }
-            }
-        }
-        stage('Deploy') {
-            steps {
-                echo 'Deploying the application...'
-                script {
-                    dir('myapp') { // Adjust accordingly
-                        // Replace with your deployment commands
-                        sh 'heroku git:remote -a your-app-name'
-                        sh 'git push heroku main'
-                    }
-                }
+                sh 'npm run build' // Adjust if your build command is different
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline succeeded! Application deployed successfully.'
+            echo 'Pipeline succeeded!'
         }
         failure {
             echo 'Pipeline failed. Please check the logs.'
