@@ -25,7 +25,9 @@ pipeline {
             steps {
                 echo 'Building the application...'
                 script {
-                    sh 'npm install'
+                    dir('myapp') { // Change 'myapp' to your actual directory if needed
+                        sh 'npm install'
+                    }
                 }
             }
         }
@@ -33,7 +35,9 @@ pipeline {
             steps {
                 echo 'Running tests...'
                 script {
-                    sh 'npm test'
+                    dir('myapp') { // Adjust accordingly
+                        sh 'npm test'
+                    }
                 }
             }
         }
@@ -41,9 +45,11 @@ pipeline {
             steps {
                 echo 'Deploying the application...'
                 script {
-                    // Replace the following lines with your deployment commands
-                    sh 'heroku git:remote -a your-app-name'
-                    sh 'git push heroku main'
+                    dir('myapp') { // Adjust accordingly
+                        // Replace with your deployment commands
+                        sh 'heroku git:remote -a your-app-name'
+                        sh 'git push heroku main'
+                    }
                 }
             }
         }
