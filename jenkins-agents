@@ -2,38 +2,25 @@ pipeline {
     agent any
 
     stages {
-        stage('Checkout') {
+        stage('Check Agent') {
             steps {
-                echo 'Checking out the repository...'
-                checkout scm
-            }
-        }
-        stage('Install Dependencies') {
-            steps {
-                echo 'Installing dependencies...'
-                sh 'npm install'
-            }
-        }
-        stage('Run Tests') {
-            steps {
-                echo 'Running tests...'
-                sh 'npm test'
-            }
-        }
-        stage('Build') {
-            steps {
-                echo 'Building the application...'
-                sh 'npm run build' // Adjust if your build command is different
+                echo 'Checking Jenkins agent...'
+                sh '''
+                    echo "Agent is running on: $(hostname)"
+                    echo "Current directory: $(pwd)"
+                    echo "List of files:"
+                    ls -la
+                '''
             }
         }
     }
 
     post {
         success {
-            echo 'Pipeline succeeded!'
+            echo 'Agent check succeeded!'
         }
         failure {
-            echo 'Pipeline failed. Please check the logs.'
+            echo 'Agent check failed. Please check the logs.'
         }
     }
 }
