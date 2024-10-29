@@ -1,3 +1,3 @@
 print("hello")
-
+echo "look that"
 echo "shell scripting"
