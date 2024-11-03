@@ -18,15 +18,15 @@
     </dependencies>
 
     <build>
-        <finalName>MyWebApp</finalName> <!-- Optional: WAR file name -->
+        <finalName>MyWebApp</finalName> <!-- This sets the name of the WAR file -->
         <plugins>
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <version>3.8.1</version>
                 <configuration>
-                    <source>1.8</source> <!-- Change to 17 if using Java 17 -->
-                    <target>1.8</target> <!-- Change to 17 if using Java 17 -->
+                    <source>17</source> <!-- Set to 1.8 if using Java 8, or change to 17 if using Java 17 -->
+                    <target>17</target> <!-- Set to 1.8 if using Java 8, or change to 17 if using Java 17 -->
                 </configuration>
             </plugin>
             <plugin>
@@ -41,3 +41,4 @@
         </plugins>
     </build>
 </project>
+
