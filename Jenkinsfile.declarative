@@ -13,7 +13,7 @@ pipeline {
         }
         stage('Deploy to Tomcat') {
             steps {
-                sh 'scp target/MyWebApp.war ubuntu@43.204.130.110:/opt/apache-tomcat-9.0.96/webapps/'
+                sh 'scp target/MyWebApp.war ubuntu@13.235.81.208:/opt/apache-tomcat-9.0.96/webapps/'
             }
         }
     }
