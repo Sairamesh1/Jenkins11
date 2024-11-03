@@ -1,0 +1,29 @@
+pipeline {
+    agent any
+    stages {
+        stage('Checkout') {
+            steps {
+                git branch: 'main', url: 'https://github.com/Pradeep-22/Jenkins.git'
+            }
+        }
+        stage('Build') {
+            steps {
+                sh 'mvn clean package'
+            }
+        }
+        stage('Deploy to Tomcat') {
+            steps {
+                sh 'scp target/MyWebApp.war ubuntu@43.204.130.110:/opt/apache-tomcat-9.0.96/webapps/'
+            }
+        }
+    }
+    post {
+        success {
+            echo "Deployment successful!"
+        }
+        failure {
+            echo "Deployment failed."
+        }
+    }
+}
+
