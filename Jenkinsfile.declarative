@@ -3,17 +3,20 @@ pipeline {
     stages {
         stage('Checkout') {
             steps {
+                // Clones the repository from GitHub
                 git branch: 'main', url: 'https://github.com/Pradeep-22/Jenkins.git'
             }
         }
         stage('Build') {
             steps {
-                sh 'mvn clean package'
+                // Runs Maven to build the project using the pom.xml in MyWebApp directory
+                sh 'mvn -f MyWebApp/pom.xml clean package'
             }
         }
         stage('Deploy to Tomcat') {
             steps {
-                sh 'scp target/MyWebApp.war ubuntu@13.235.81.208:/opt/apache-tomcat-9.0.96/webapps/'
+                // Securely copies the WAR file to the Tomcat webapps directory
+                sh 'scp MyWebApp/target/MyWebApp.war ubuntu@13.235.81.208:/opt/apache-tomcat-9.0.96/webapps/'
             }
         }
     }
